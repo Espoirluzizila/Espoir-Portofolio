@@ -1,4 +1,3 @@
-/* --- GESTION DU SPLASH SCREEN (Priorité n°1) --- */
 const removeSplash = () => {
     const splash = document.getElementById('splash');
     const loaderLine = document.querySelector('.loader-line');
@@ -7,29 +6,37 @@ const removeSplash = () => {
 
     setTimeout(() => {
         if (splash) {
-            splash.style.opacity = '0';
-            splash.style.transition = 'opacity 0.8s ease';
+            splash.style.transform = 'translateY(-100%)';
+            splash.style.transition = 'transform 1s cubic-bezier(0.77, 0, 0.175, 1)';
             setTimeout(() => {
                 splash.remove();
-                document.body.style.overflow = 'auto'; // Réactive le défilement
-            }, 800);
+                document.body.style.overflow = 'auto';
+            }, 1000);
+            // À ajouter dans le setTimeout du removeSplash juste après splash.remove()
+const heroElements = document.querySelectorAll('.hero-text > *');
+heroElements.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = `all 0.8s cubic-bezier(0.2, 1, 0.3, 1) ${index * 0.2}s`;
+    
+    // On déclenche l'animation
+    setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+    }, 100);
+});
         }
-    }, 1500); 
+    }, 2000); 
 };
 
-// On lance dès que la page est chargée
 window.addEventListener('load', removeSplash);
 
-// Sécurité : Si après 4 secondes c'est toujours bloqué, on l'enlève de force
-setTimeout(removeSplash, 4000);
-
-/* --- EFFET TILT (Sécurisé) --- */
+// Effet de mouvement sur l'image (Tilt)
 window.addEventListener('mousemove', (e) => {
     const card = document.querySelector('.image-card');
-    // On vérifie que "card" existe bien avant de faire des calculs
-    if (card) {
-        let x = (window.innerWidth / 2 - e.pageX) / 40;
-        let y = (window.innerHeight / 2 - e.pageY) / 40;
-        card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    if (card && window.innerWidth > 900) {
+        let x = (window.innerWidth / 2 - e.pageX) / 35;
+        let y = (window.innerHeight / 2 - e.pageY) / 35;
+        card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
     }
 });
