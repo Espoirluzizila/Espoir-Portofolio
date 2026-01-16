@@ -114,3 +114,58 @@ body {
 .btn-icon i {
     font-size: 1.2rem;
 }
+/* --- ADAPTATION MOBILE (RESPONSIVE) --- */
+
+@media (max-width: 768px) {
+    /* Navbar : on cache ou on simplifie */
+    .nav-links {
+        display: none; /* Cache les liens pour l'instant ou laisse juste le bouton CV */
+    }
+    
+    .nav-flex {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    /* Hero Section : On empile l'image et le texte */
+    .hero-grid {
+        grid-template-columns: 1fr; /* Une seule colonne */
+        text-align: center;
+        gap: 40px;
+    }
+
+    .hero-title {
+        font-size: 2.5rem; /* Titre moins géant sur mobile */
+    }
+
+    .hero-desc {
+        margin: 20px auto;
+    }
+
+    .hero-visual {
+        order: -1; /* Met l'image au-dessus du texte sur mobile */
+        max-width: 80%;
+        margin: 0 auto;
+    }
+
+    /* Grilles de compétences et projets : 1 colonne au lieu de 3 */
+    .skills-grid, .proj-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .skill-card {
+        padding: 25px;
+    }
+
+    /* Ajustement de l'image 3D pour mobile */
+    .glass-plate {
+        inset: -10px;
+    }
+    
+    .sec-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+}
