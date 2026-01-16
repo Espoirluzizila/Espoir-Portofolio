@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&display=swap');
 
-/* RESET & BASE */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* 1. RESET COMPLET & FIX STABILITÉ */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-font-smoothing: antialiased;
+}
 
 :root {
     --bg: #000000;
@@ -9,7 +14,7 @@
     --card: #0A0A0A;
     --text: #FFFFFF;
     --muted: #888888;
-    --border: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.12);
 }
 
 html { scroll-behavior: smooth; }
@@ -19,137 +24,128 @@ body {
     color: var(--text);
     font-family: 'Plus Jakarta Sans', sans-serif;
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
-/* PROTECTION IMAGES (Empêche toute déformation) */
+/* 2. FIX IMAGES : PLUS DE NOIR ET BLANC & FIX PROPORTIONS */
 img {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover; /* Garde les proportions */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garde les proportions sans écraser */
     display: block;
+    filter: none !important; /* SUPPRIME LE NOIR ET BLANC */
+    transition: transform 0.5s ease;
 }
 
 .container { 
     max-width: 1200px; 
     margin: 0 auto; 
-    padding: 0 24px; 
+    padding: 0 20px; 
 }
 
-/* SPLASH SCREEN (Optimisé) */
+/* 3. SPLASH SCREEN */
 #splash {
     position: fixed; inset: 0; background: #000; z-index: 9999;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: opacity 0.8s ease;
 }
-.splash-name { font-size: clamp(1rem, 4vw, 1.2rem); letter-spacing: 5px; font-weight: 800; text-align: center; padding: 0 20px; }
-.loader-line { width: 0; height: 1px; background: white; margin-top: 15px; transition: 1.5s ease; width: 150px; position: relative; overflow: hidden; }
-.loader-line::after { content: ""; position: absolute; left: 0; height: 100%; background: #fff; width: 0%; animation: load 2s forwards; }
-@keyframes load { to { width: 100%; } }
+.splash-name { font-size: 1.1rem; letter-spacing: 5px; font-weight: 800; color: white; text-align: center; }
 
-/* NAVBAR RESPONSIVE */
-.navbar { padding: 30px 0; border-bottom: 1px solid var(--border); }
+/* 4. NAVBAR (Fix mobile) */
+.navbar { padding: 25px 0; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
 .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-weight: 800; font-size: 1.3rem; text-decoration: none; color: white; letter-spacing: -1px; }
-.logo span { color: var(--muted); }
+.logo { font-weight: 800; font-size: 1.1rem; text-decoration: none; color: white; }
 
-.nav-links { display: flex; align-items: center; gap: 25px; }
-.nav-links a { text-decoration: none; color: var(--muted); transition: 0.3s; font-size: 0.85rem; font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--muted); font-size: 0.8rem; font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: white; }
-.nav-btn { border: 1px solid white; padding: 8px 18px; border-radius: 4px; color: white !important; font-weight: 800; }
+.nav-btn { border: 1px solid white; padding: 7px 15px; border-radius: 4px; color: white !important; }
 
-/* HERO SECTION (Adaptatif) */
-.hero { padding: clamp(60px, 10vh, 120px) 0; }
-.hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
+/* 5. HERO SECTION : FIX STRUCTURE PC & MOBILE */
+.hero { padding: 80px 0; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
 
 .hero-title { 
-    font-size: clamp(2.2rem, 8vw, 4.5rem); 
+    font-size: clamp(2rem, 7vw, 4rem); 
     font-weight: 800; 
-    line-height: 1.05; 
-    letter-spacing: -3px; 
-    margin-bottom: 25px;
+    line-height: 1.1; 
+    margin-bottom: 20px;
+    letter-spacing: -2px;
 }
-.gradient-text { color: var(--muted); }
-.hero-desc { font-size: clamp(1rem, 2vw, 1.1rem); color: var(--muted); margin-bottom: 35px; max-width: 520px; }
+.hero-desc { color: var(--muted); margin-bottom: 30px; font-size: 1rem; max-width: 500px; }
 
-/* VISUEL 3D (Fixe déformation) */
-.hero-visual { width: 100%; display: flex; justify-content: center; }
-.tilt-container { perspective: 1000px; width: 100%; max-width: 420px; }
-.image-card { position: relative; transform-style: preserve-3d; transition: transform 0.1s; aspect-ratio: 4/5; }
-.img-main { 
-    width: 100%; height: 100%; 
-    border-radius: 4px; 
-    filter: grayscale(100%); transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); 
+/* FIX IMAGE HERO (STABLE) */
+.hero-visual { width: 100%; position: relative; }
+.image-card { 
+    width: 100%; 
+    max-width: 400px; 
+    aspect-ratio: 4/5; 
+    margin: 0 auto; 
+    border-radius: 8px; 
+    overflow: hidden; 
     border: 1px solid var(--border);
+    background: var(--card);
 }
-.image-card:hover .img-main { filter: grayscale(0%); }
-.glass-plate { position: absolute; inset: -15px; border: 1px solid var(--border); transform: translateZ(-40px); z-index: -1; pointer-events: none; }
 
-/* BOUTONS ACTIONS */
-.hero-actions { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
-.btn-main { background: white; color: black; padding: 16px 32px; text-decoration: none; font-weight: 800; border-radius: 4px; transition: 0.3s; }
-.btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
-
+/* 6. BOUTONS & ACTIONS */
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-main { background: white; color: black; padding: 14px 28px; text-decoration: none; font-weight: 800; border-radius: 4px; }
 .btn-cv, .btn-icon { 
-    display: inline-flex; align-items: center; gap: 10px; padding: 15px 20px; 
-    border: 1px solid var(--border); border-radius: 4px; color: white; text-decoration: none; transition: 0.3s;
+    display: inline-flex; align-items: center; gap: 8px; padding: 14px 20px; 
+    border: 1px solid var(--border); border-radius: 4px; color: white; text-decoration: none; font-size: 0.9rem;
 }
-.btn-cv:hover, .btn-icon:hover { border-color: white; background: rgba(255,255,255,0.05); }
 
-/* SECTIONS & GRILLES */
-.section { padding: 100px 0; border-top: 1px solid var(--border); }
-.sec-title { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 50px; letter-spacing: -1px; }
+/* 7. SECTIONS COMPÉTENCES & PROJETS */
+.section { padding: 80px 0; border-top: 1px solid var(--border); }
+.sec-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 40px; }
 
-/* Grille 3 colonnes PC -> 2 Tablette -> 1 Mobile */
 .skills-grid, .proj-grid { 
     display: grid; 
     grid-template-columns: repeat(3, 1fr); 
-    gap: 30px; 
+    gap: 20px; 
 }
 
 .skill-card { 
-    background: var(--card); padding: 40px; border-radius: 4px; 
-    border: 1px solid var(--border); transition: 0.3s;
+    background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid var(--border);
 }
-.skill-card:hover { border-color: #444; }
-.skill-card i { font-size: 2rem; color: var(--muted); margin-bottom: 25px; display: block; }
-.skill-card h3 { margin-bottom: 12px; font-weight: 800; font-size: 1.2rem; }
-.skill-card p { color: var(--muted); font-size: 0.9rem; }
+.skill-card i { font-size: 1.8rem; color: white; margin-bottom: 20px; display: block; }
+.skill-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+.skill-card p { color: var(--muted); font-size: 0.85rem; }
 
-.proj-card { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); background: var(--card); }
+/* FIX PROJETS (Images stables en couleur) */
+.proj-card { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--card); }
 .proj-img { width: 100%; aspect-ratio: 16/10; overflow: hidden; }
-.proj-img img { width: 100%; height: 100%; transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1); filter: brightness(0.6) grayscale(100%); }
-.proj-card:hover .proj-img img { filter: brightness(1) grayscale(0%); transform: scale(1.05); }
-.proj-info { padding: 25px; }
+.proj-info { padding: 20px; }
+.proj-info h3 { font-size: 1rem; margin-bottom: 5px; }
+.proj-info p { color: var(--muted); font-size: 0.8rem; }
 
-/* --- MEDIA QUERIES (TABLETTES & IPHONES) --- */
-
-/* TABLETTE (max 1024px) */
-@media (max-width: 1024px) {
-    .hero-grid { gap: 40px; }
-    .skills-grid, .proj-grid { grid-template-columns: repeat(2, 1fr); }
+/* 8. CONTACT GRID */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.pay-tag { display: inline-block; padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; margin-right: 5px; margin-bottom: 5px; }
+.contact-form-box input, .contact-form-box textarea { 
+    width: 100%; background: var(--card); border: 1px solid var(--border); 
+    padding: 12px; color: white; margin-bottom: 10px; border-radius: 4px; 
 }
 
-/* MOBILE (max 768px) */
+/* 9. RESPONSIVE TOTAL (Iphone, Tablette, Android) */
+@media (max-width: 992px) {
+    .skills-grid, .proj-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-grid { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 768px) {
-    .nav-links { display: none; } /* On simplifie pour mobile */
+    .nav-links { display: none; } /* Cache les liens inutiles sur mobile */
     .hero-grid { grid-template-columns: 1fr; text-align: center; }
     .hero-text { display: flex; flex-direction: column; align-items: center; }
     .hero-actions { justify-content: center; }
-    .hero-desc { margin-left: auto; margin-right: auto; }
-    
-    .hero-visual { order: -1; margin-bottom: 20px; } /* Photo en haut */
-    .tilt-container { max-width: 280px; }
+    .hero-visual { order: -1; margin-bottom: 30px; }
+    .image-card { max-width: 280px; }
     
     .skills-grid, .proj-grid { grid-template-columns: 1fr; }
-    
-    .section { padding: 60px 0; }
-    .sec-title { text-align: center; }
+    .hero-title { letter-spacing: -1px; }
 }
 
-/* PETITS IPHONES (max 480px) */
 @media (max-width: 480px) {
     .hero-actions { flex-direction: column; width: 100%; }
     .btn-main, .btn-cv, .btn-icon { width: 100%; justify-content: center; }
-    .hero-title { letter-spacing: -1px; }
+    .navbar .logo { font-size: 0.9rem; }
 }
