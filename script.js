@@ -1,4 +1,4 @@
-/* --- 1. GESTION DU SPLASH SCREEN (PRIORITAIRE) --- */
+/* --- GESTION DU SPLASH SCREEN (Priorité n°1) --- */
 const removeSplash = () => {
     const splash = document.getElementById('splash');
     const loaderLine = document.querySelector('.loader-line');
@@ -11,31 +11,25 @@ const removeSplash = () => {
             splash.style.transition = 'opacity 0.8s ease';
             setTimeout(() => {
                 splash.remove();
-                document.body.style.overflow = 'auto'; // Réactive le scroll
+                document.body.style.overflow = 'auto'; // Réactive le défilement
             }, 800);
         }
-    }, 1500); // Le site s'ouvre après 1.5s quoi qu'il arrive
+    }, 1500); 
 };
 
-// On lance au chargement
+// On lance dès que la page est chargée
 window.addEventListener('load', removeSplash);
 
-/* --- 2. EFFET TILT (DYNAMIQUE) --- */
-// On écoute le mouvement de souris sur toute la fenêtre
+// Sécurité : Si après 4 secondes c'est toujours bloqué, on l'enlève de force
+setTimeout(removeSplash, 4000);
+
+/* --- EFFET TILT (Sécurisé) --- */
 window.addEventListener('mousemove', (e) => {
     const card = document.querySelector('.image-card');
-    // On vérifie que "card" existe AVANT de faire des calculs
+    // On vérifie que "card" existe bien avant de faire des calculs
     if (card) {
         let x = (window.innerWidth / 2 - e.pageX) / 40;
         let y = (window.innerHeight / 2 - e.pageY) / 40;
         card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-    }
-});
-
-window.addEventListener('mouseleave', () => {
-    const card = document.querySelector('.image-card');
-    if (card) {
-        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        card.style.transition = '0.5s';
     }
 });
